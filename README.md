@@ -2,7 +2,7 @@
 
 ### Description
 
-This project is a webapp that features flashcard functionality for the learning new subjects.  
+This project is a webapp that features flashcard functionality for learning new subjects.  
 
 Coming features:
 - User accounts
