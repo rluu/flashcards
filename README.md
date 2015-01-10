@@ -1,8 +1,16 @@
-# todo-webapp
+# flashcards
 
 ### Description
 
-This project is a webapp that features todo list functionality, built on top of Python/Django.
+This project is a webapp that features flashcard functionality for the learning new subjects.  
+
+Coming features:
+- User accounts
+- Multiple flashcard sets
+- Import and export of flashcards.
+
+Software stack:
+- Python/Django.
 
 Creation date: 2015-01-09.
 
