@@ -2,7 +2,7 @@
 
 ### Description
 
-This project is a webapp that features flashcard functionality for learning new subjects.  
+This project is a webapp that features flashcard functionality for learning new subjects.
 
 Coming features:
 - User accounts
@@ -22,13 +22,13 @@ ryanluu@gmail.com
 ### Dependencies
 
 System-level dependencies:
-- [Python >= 3.4](https://www.python.org/)
-- [PostgreSQL](http://www.postgresql.org/)
+- [Python 3.4](https://www.python.org/) or higher.
+- [PostgreSQL 8.4](http://www.postgresql.org/) or higher.
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
 
 Python package dependencies (installed using pip, using requirements.txt):
+- [Django 1.7](https://www.djangoproject.com/)
 - [psycopg](http://initd.org/psycopg/)
-- [Django](https://www.djangoproject.com/)
 
 
 ### Setup and installation of environment:
@@ -58,7 +58,7 @@ pip install virtualenv
 
 5. Install [PostgreSQL](http://www.postgresql.org/download/).
   - On Mac OS X, using the [Postgres.app](http://postgresapp.com/):
-    - Download the zip file.
+    - Download the zip file and extract it.
     - Run the executable.  Agree to the prompt to move the application to the Applications folder.
     - Add the following to your .bashrc or .bash_profile to get the PostgreSQL tools in your path:
     ```
