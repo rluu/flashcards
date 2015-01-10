@@ -69,12 +69,12 @@ export POSTGRESQL_HOME=/Applications/Postgres.app/Contents/Versions/9.4
 export PATH=$POSTGRESQL_HOME/bin:$PATH
     ```
 
-6. Start up the PostgreSQL database.  If you're on Mac OS X and it was installed via Postgres.app, then run it via the Application folder; you should see an elephant should pop up in the tool bar.
+6. Start up the PostgreSQL database.  If you're on Mac OS X and it was installed via Postgres.app, then run it via the Application folder; you should see an elephant icon pop up in the tool bar.
 
 7. Clone this project's git repository, and change into the directory.
   ```
-git clone https://github.com/rluu/todo-webapp.git
-cd todo-webapp
+git clone https://github.com/rluu/flashcards.git
+cd flashcards
   ```
 
 8. Run `virtualenv` within the project directory to create a virtual environment, and then activate the environment.
