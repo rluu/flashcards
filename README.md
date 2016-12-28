@@ -92,8 +92,8 @@ cd ${PROJECT_HOME}
 
 HTTP server defaults to port 8080 for the REST API and port 8081 for admin metrics.
 ```
-ssh -f $(vagrant ssh-config | awk '{print " -o "$1"="$2}') localhost -L 8080:127.0.0.1:8080 -N
-ssh -f $(vagrant ssh-config | awk '{print " -o "$1"="$2}') localhost -L 8081:127.0.0.1:8081 -N
+ssh -f $(vagrant ssh-config | grep -v "Host " | awk '{print " -o "$1"="$2}') localhost -L 8080:127.0.0.1:8080 -N
+ssh -f $(vagrant ssh-config | grep -v "Host " | awk '{print " -o "$1"="$2}') localhost -L 8081:127.0.0.1:8081 -N
 ```
 
 Note: The format of the `ssh -L` forwarding is:

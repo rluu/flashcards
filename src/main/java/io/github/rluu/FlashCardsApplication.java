@@ -9,6 +9,7 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.github.rluu.db.UserDAO;
 
 public class FlashCardsApplication extends Application<FlashCardsConfiguration> {
 
@@ -37,7 +38,7 @@ public class FlashCardsApplication extends Application<FlashCardsConfiguration> 
                     final Environment environment) {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
-//        final UserDAO dao = jdbi.onDemand(UserDAO.class);
+        final UserDAO dao = jdbi.onDemand(UserDAO.class);
 //        environment.jersey().register(new UserResource(dao));
     }
 

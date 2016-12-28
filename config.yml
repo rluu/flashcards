@@ -8,13 +8,13 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: pg-user
+  user: flashcards_user
 
   # the password
-  password: iAMs00perSecrEET
+  #password: some_password_goes_here
 
   # the JDBC URL
-  url: jdbc:postgresql://db.example.com/db-prod
+  url: jdbc:postgresql://localhost:5432/flashcards_db
 
   # any properties specific to your JDBC driver:
   properties:
