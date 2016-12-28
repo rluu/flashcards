@@ -1,4 +1,4 @@
-package io.github.rluu.api;
+package io.github.rluu.flashcards.api;
 
 import java.time.ZonedDateTime;
 

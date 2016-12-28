@@ -21,7 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>1.0.5</dropwizard.version>
         <postgresql.jdbc.driver.version>9.4.1211</postgresql.jdbc.driver.version>
-        <mainClass>io.github.rluu.FlashCardsApplication</mainClass>
+        <mainClass>io.github.rluu.flashcards.FlashCardsApplication</mainClass>
     </properties>
 
     <dependencyManagement>

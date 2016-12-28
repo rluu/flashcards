@@ -1,8 +1,11 @@
-package io.github.rluu.api;
+package io.github.rluu.flashcards.api;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.github.rluu.flashcards.api.DatabaseObject;
+import io.github.rluu.flashcards.api.Role;
 
 public class User extends DatabaseObject {
     @JsonProperty

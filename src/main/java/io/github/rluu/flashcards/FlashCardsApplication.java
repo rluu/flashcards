@@ -1,4 +1,4 @@
-package io.github.rluu;
+package io.github.rluu.flashcards;
 
 import org.skife.jdbi.v2.DBI;
 
@@ -9,7 +9,9 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.github.rluu.db.UserDAO;
+import io.github.rluu.flashcards.FlashCardsApplication;
+import io.github.rluu.flashcards.FlashCardsConfiguration;
+import io.github.rluu.flashcards.db.UserDAO;
 
 public class FlashCardsApplication extends Application<FlashCardsConfiguration> {
 

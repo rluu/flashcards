@@ -1,4 +1,4 @@
-package io.github.rluu;
+package io.github.rluu.flashcards;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

@@ -1,6 +1,8 @@
-package io.github.rluu.api;
+package io.github.rluu.flashcards.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.github.rluu.flashcards.api.DatabaseObject;
 
 public class Role extends DatabaseObject {
     private String name;
