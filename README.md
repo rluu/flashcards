@@ -10,7 +10,16 @@ Coming features:
 - Import and export of flashcards.
 
 Software stack:
-- Dropwizard
+- Java 8
+- PostgreSQL
+- Dropwizard Java framework:
+  - Jetty for HTTP
+  - Jersey for REST
+  - Jackson for JSON
+  - Metrics for metrics
+  - JDBI for relational database with Java
+  - Liquibase for database schema versioning.
+  - Freemarker for front-end templating.
 
 Creation date: 2016-12-28
 
@@ -71,12 +80,42 @@ mvn clean install
 java -jar target/flashcards-1.0-SNAPSHOT.jar server config.yml
 ```
 
+4.  To access the guest virtual machine from the host machine, you can use ssh port forwarding as follows.  There may be a better solution, but for now, this is a work-around.
+
+1) From the host machine, navigate to the project top-level directory.
+
+```
+cd ${PROJECT_HOME}
+```
+
+2) Run the following to forward ports.  Connections made to a port on the host machine will get forwarded to a particular port on the guest machine.
+
+HTTP server defaults to port 8080 for the REST API and port 8081 for admin metrics.
+```
+ssh -f $(vagrant ssh-config | awk '{print " -o "$1"="$2}') localhost -L 8080:127.0.0.1:8080 -N
+ssh -f $(vagrant ssh-config | awk '{print " -o "$1"="$2}') localhost -L 8081:127.0.0.1:8081 -N
+```
+
+Note: The format of the `ssh -L` forwarding is:
+```
+-L <PORT_ON_HOST_MACHINE>:<IP_ADDRESS_ON_GUEST_MACHINE>:<PORT_ON_GUEST_MACHINE>
+```
+
+3) Now you can open up a browser on the host machine and navigate to the desired URLs.  For example:
+
+- [http://localhost:8080/](http://localhost:8080/)
+- [http://localhost:8081/](http://localhost:8081/)
+
+
 ### Considerations when deploying to PRD:
 
 Passwords are default and unsecured for:
-  - Application ADMIN account password.  See file: migrations.xml
+  - Application ADMIN account password.  See file: `migrations.xml`
   - PostgreSQL database connectivity and database account password.  
-    See file: provision/pg_hba.conf and provision/vagrant_bootstrap.sh
+    See file: `provision/pg_hba.conf` and `provision/vagrant_bootstrap.sh`
+
+
+### Troubleshooting / Debugging
 
 ### Old Stuff: Setup and installation of environment:
 

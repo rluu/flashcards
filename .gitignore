@@ -1,7 +1,7 @@
 *.class
 
 # Swap files created by vim or gvim.
-.swp
+*.swp
 
 # Python virtualenv directory.
 venv/
