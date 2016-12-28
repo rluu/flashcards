@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="sysdate" dbms="oracle"/>
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    <changeSet id="1" author="rluu">
+        <createTable tableName="usr" schemaName="flashcards" remarks="Users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fst_nm" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="lst_nm" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="usr_nm" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="eml_addr" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert tableName="usr" schemaName="flashcards">
+            <column name="crte_ddtm_utc" value="${now}"/>
+            <column name="lst_mdfd_ddtm_utc" value="${now}"/>
+            <column name="fst_nm" value="Admin"/>
+            <column name="lst_nm" value="Admin"/>
+            <column name="usr_nm" value="ADMIN"/>
+            <column name="eml_addr" valueDate="RYANLUU@GMAIL.COM"/>
+            <column name="pswd" valueDate="admin"/>
+        </insert>
+        <createTable tableName="role"  schemaName="flashcards" remarks="User Roles">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="nm" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="dscrptn" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <insert tableName="role" schemaName="flashcards">
+            <column name="crte_ddtm_utc" value="${now}"/>
+            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="lst_mdfd_ddtm_utc" value="${now}"/>
+            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="nm" value="ADMIN"/>
+            <column name="dscrptn" value="Administrator"/>
+        </insert>
+        <createTable tableName="flshcrd" schemaName="flashcards">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="sd1" type="varchar(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sd2" type="varchar(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dscrptn" type="varchar(4096)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createTable tableName="flshcrd_lst" schemaName="flashcards">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="nm" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dscrptn" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createTable tableName="flshcrd_lst_flshcrd" schemaName="flashcards">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="flshcrd_lst_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
+            </column>
+            <column name="flshcrd_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_id" references="flshcrd(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="usr_flshcrd_lst" schemaName="flashcards">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(id)"/>
+            </column>
+            <column name="flshcrd_lst_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
