@@ -37,7 +37,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createTable tableName="role" remarks="User Roles">
+        <createIndex tableName="usr" indexName="usr_idx_usr_nm">
+            <column name="usr_nm"/>
+        </createIndex>
+        <createIndex tableName="usr" indexName="usr_idx_pswd">
+            <column name="pswd"/>
+        </createIndex>
+        <createTable tableName="role" remarks="Roles">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -60,6 +66,38 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
+        <createIndex tableName="role" indexName="role_idx_nm">
+            <column name="nm"/>
+        </createIndex>
+        <createTable tableName="usr_role" remarks="User to Roles mapping">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="crte_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crte_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lst_mdfd_by_usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
+            </column>
+            <column name="usr_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(id)"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_role_id" references="role(id)"/>
+            </column>
+        </createTable>
+        <createIndex tableName="usr_role" indexName="usr_role_idx_usr_id">
+            <column name="usr_id"/>
+        </createIndex>
+        <createIndex tableName="usr_role" indexName="usr_role_idx_role_id">
+            <column name="role_id"/>
+        </createIndex>
         <createTable tableName="flshcrd" remarks="Flashcards">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -132,6 +170,12 @@
                 <constraints nullable="false" foreignKeyName="fk_flshcrd_id" references="flshcrd(id)"/>
             </column>
         </createTable>
+        <createIndex tableName="flshcrd_lst_flshcrd" indexName="flshcrd_lst_flshcrd_idx_flshcrd_lst_id">
+            <column name="flshcrd_lst_id"/>
+        </createIndex>
+        <createIndex tableName="flshcrd_lst_flshcrd" indexName="flshcrd_lst_flshcrd_idx_flshcrd_id">
+            <column name="flshcrd_id"/>
+        </createIndex>
         <createTable tableName="usr_flshcrd_lst" remarks="User to Flashcard List mapping.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -155,6 +199,12 @@
                 <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
             </column>
         </createTable>
+        <createIndex tableName="usr_flshcrd_lst" indexName="usr_flshcrd_lst_idx_usr_id">
+            <column name="usr_id"/>
+        </createIndex>
+        <createIndex tableName="usr_flshcrd_lst" indexName="usr_flshcrd_lst_idx_flshcrd_lst_id">
+            <column name="flshcrd_lst_id"/>
+        </createIndex>
     </changeSet>
     <changeSet id="2" author="rluu">
         <insert tableName="usr">
@@ -174,8 +224,27 @@
             <column name="nm" value="ADMIN"/>
             <column name="dscrptn" value="Administrator"/>
         </insert>
+        <insert tableName="role">
+            <column name="crte_dttm_utc" value="${now}"/>
+            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="lst_mdfd_dttm_utc" value="${now}"/>
+            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="nm" value="USER"/>
+            <column name="dscrptn" value="Regular User"/>
+        </insert>
+        <insert tableName="usr_role">
+            <column name="crte_dttm_utc" value="${now}"/>
+            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="lst_mdfd_dttm_utc" value="${now}"/>
+            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="role_id" valueComputed="(select id from role where nm='ADMIN')"/>
+        </insert>
         <rollback>
+            delete from usr_role where role_id in (select id from role where nm='ADMIN');
+            delete from usr_role where role_id in (select id from role where nm='USER');
             delete from role where nm='ADMIN';
+            delete from role where nm='USER';
             delete from usr where usr_nm='ADMIN';
         </rollback>
     </changeSet>

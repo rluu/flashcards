@@ -9,8 +9,6 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.github.rluu.flashcards.FlashCardsApplication;
-import io.github.rluu.flashcards.FlashCardsConfiguration;
 import io.github.rluu.flashcards.db.UserDAO;
 
 public class FlashCardsApplication extends Application<FlashCardsConfiguration> {
