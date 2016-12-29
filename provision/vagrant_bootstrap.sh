@@ -28,12 +28,12 @@ export DATABASE_NAME=flashcards_db
 echo "Installing operating system packages ..."
 sudo apt-get update -y
 
-
 #sudo apt-get install -y emacs23
 #sudo apt-get install -y git
 #sudo apt-get install -y unzip
 #sudo apt-get install -y python3-pip
 
+echo "Installing zip ..."
 sudo apt-get install -y zip
 
 ##############################################################################
@@ -58,6 +58,9 @@ cp ${PROJECT_HOME}/provision/pg_hba.conf /etc/postgresql/${PGSQL_VERSION}/main/
 #su -l postgres -c 'createuser --no-password -s -e ${DATABASE_USERNAME}'
 sudo -u postgres createuser --no-password -s -e ${DATABASE_USERNAME}
 createdb -U${DATABASE_USERNAME} ${DATABASE_NAME}
+
+echo "Installing pgAdmin ..."
+apt-get install -y pgadmin3
 
 ##############################################################################
 # Setup the Bash environment.

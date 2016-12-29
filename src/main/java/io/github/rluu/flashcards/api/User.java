@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.github.rluu.flashcards.api.DatabaseObject;
-import io.github.rluu.flashcards.api.Role;
-
 public class User extends DatabaseObject {
     @JsonProperty
     private String firstName;
@@ -14,6 +11,8 @@ public class User extends DatabaseObject {
     private String lastName;
     @JsonProperty
     private String username;
+    @JsonProperty
+    private String password;
     @JsonProperty
     private String emailAddress;
     @JsonProperty
@@ -36,6 +35,12 @@ public class User extends DatabaseObject {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
     public String getEmailAddress() {
         return emailAddress;

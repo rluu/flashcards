@@ -10,47 +10,51 @@ Coming features:
 - Import and export of flashcards.
 
 Software stack:
-- Java 8
-- PostgreSQL
-- Dropwizard Java framework:
-  - Jetty for HTTP
-  - Jersey for REST
-  - Jackson for JSON
-  - Metrics for metrics
-  - JDBI for relational database with Java
-  - Liquibase for database schema versioning.
-  - Freemarker for front-end templating.
+- [Java 8](http://openjdk.java.net/projects/jdk8/)
+- [PostgreSQL](http://www.postgresql.org/)
+- [Dropwizard](http://www.dropwizard.io/) Java framework:
+  - [Jetty](http://www.eclipse.org/jetty/) for HTTP.
+  - [Jersey](http://jersey.java.net/) for REST.
+  - [Jackson](http://wiki.fasterxml.com/JacksonHome) for JSON.
+  - [Metrics](http://metrics.dropwizard.io/) for metrics.
+  - [JDBI](http://www.jdbi.org/) for relational database with Java.
+  - [Liquibase](http://www.liquibase.org/) for database schema versioning.
+  - [Freemarker](http://freemarker.sourceforge.net/) for front-end templating.
 
 Creation date: 2016-12-28
 
 ### Author(s)
 
-Ryan Luu
+- Ryan Luu
+&nbsp;&nbsp;
 ryanluu@gmail.com
 
 ### Dependencies
 
 System-level dependencies:
-- Java 8
-- Maven
-- [PostgreSQL 8.4](http://www.postgresql.org/) or higher.
+- [Java 8](http://openjdk.java.net/projects/jdk8/)
+- [Apache Maven](https://maven.apache.org/)
+- [PostgreSQL](http://www.postgresql.org/)
 
 How to start the FlashCards application
 ---
 
 1. Run `mvn clean install` to build your application
 1. Start application with `java -jar target/flashcards-1.0-SNAPSHOT.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
+1. To check that your application is running enter url: [http://localhost:8080/](http://localhost:8080/)
 
 Health Check
 ---
 
-To see your applications health enter url `http://localhost:8081/healthcheck`
+To see your applications health enter url: [http://localhost:8081/healthcheck](http://localhost:8081/healthcheck)
 
+For other admin-related information, see: [http://localhost:8081/](http://localhost:8081/)
 
-### Setup and installation of DEV environment using Vagrant:
+Setup and installation of DEV environment using Vagrant
+---
 
-1. Install [Vagrant](https://releases.hashicorp.com/vagrant/) (for automated Database and runtime environment install).
+#### Install [Vagrant](https://releases.hashicorp.com/vagrant/)
+This will get you set up with a database and runtime environment.
 
 ```
 # Get the most recent package of Vagrant.
@@ -63,15 +67,15 @@ cat vagrant_1.9.1_SHA256SUMS
 rpm -Uvh vagrant_1.9.1_x86_64.rpm
 ```
 
-2. Navigate to the project directory and start the VM.
-Starting the Vagrant VirtualBox VM for the first time should take about 4 minutes.
+#### Navigate to the project directory and start the VM.
+Starting the Vagrant VirtualBox VM for the first time should take about 4 to 5 minutes, depending on the speed of your internet connection.
 
 ```
 cd ${PROJECT_HOME}
 vagrant up
 ```
 
-3.  Build and run.
+#### Build and run.
 
 ```
 vagrant ssh
@@ -80,7 +84,9 @@ mvn clean install
 java -jar target/flashcards-1.0-SNAPSHOT.jar server config.yml
 ```
 
-4.  To access the guest virtual machine from the host machine, you can use ssh port forwarding as follows.  There may be a better solution, but for now, this is a work-around.
+#### SSH Port Forwarding
+To access the guest virtual machine from the host machine, you can use ssh port forwarding as follows.  
+There may be a better solution, but for now, this is a work-around.
 
 1) From the host machine, navigate to the project top-level directory.
 
@@ -106,8 +112,62 @@ Note: The format of the `ssh -L` forwarding is:
 - [http://localhost:8080/](http://localhost:8080/)
 - [http://localhost:8081/](http://localhost:8081/)
 
+Database Migrations With Liquibase
+---
 
-### Considerations when deploying to PRD:
+Check database status:
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db status config.yml
+```
+
+Schema dump:
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db dump config.yml
+```
+
+Tagging your schema:
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db tag config.yml 2016-12-29-pre-user-move
+```
+
+Migrating your schema (dry-run and for real):
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db migrate config.yml --dry-run
+
+java -jar target/flashcards-1.0-SNAPSHOT.jar db migrate config.yml
+```
+
+Rolling back your schema (dry-run and for real):
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db rollback config.yml --tag 2016-12-29-pre-user-move --dry-run
+
+java -jar target/flashcards-1.0-SNAPSHOT.jar db rollback config.yml --tag 2016-12-29-pre-user-move
+```
+
+Testing Migrations: 
+
+To verify that a set of pending change sets can be fully rolled back, use
+the `db test` command, which will migrate forward, roll back to the original
+state, then migrate forward again:
+
+Note: Do not run this in production!!!
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db test config.yml
+```
+
+Preparing a rollback script before they have been applied:
+
+```
+java -jar target/flashcards-1.0-SNAPSHOT.jar db prepare-rollback config.yml
+```
+
+Considerations when deploying to PRD
+---
 
 Passwords are default and unsecured for:
   - Application ADMIN account password.  See file: `migrations.xml`
@@ -115,9 +175,11 @@ Passwords are default and unsecured for:
     See file: `provision/pg_hba.conf` and `provision/vagrant_bootstrap.sh`
 
 
-### Troubleshooting / Debugging
+Troubleshooting / Debugging
+---
 
-### Old Stuff: Setup and installation of environment:
+Old Stuff: Setup and installation of environment
+---
 
 5. Install [PostgreSQL](http://www.postgresql.org/download/).
   - On Mac OS X, using the [Postgres.app](http://postgresapp.com/):

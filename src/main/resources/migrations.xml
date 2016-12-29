@@ -11,7 +11,7 @@
     <property name="now" value="now()" dbms="postgresql"/>
 
     <changeSet id="1" author="rluu">
-        <createTable tableName="usr" schemaName="flashcards" remarks="Users">
+        <createTable tableName="usr" remarks="Users">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -30,20 +30,14 @@
             <column name="usr_nm" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="pswd" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="eml_addr" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <insert tableName="usr" schemaName="flashcards">
-            <column name="crte_ddtm_utc" value="${now}"/>
-            <column name="lst_mdfd_ddtm_utc" value="${now}"/>
-            <column name="fst_nm" value="Admin"/>
-            <column name="lst_nm" value="Admin"/>
-            <column name="usr_nm" value="ADMIN"/>
-            <column name="eml_addr" valueDate="RYANLUU@GMAIL.COM"/>
-            <column name="pswd" valueDate="admin"/>
-        </insert>
-        <createTable tableName="role"  schemaName="flashcards" remarks="User Roles">
+        <createTable tableName="role" remarks="User Roles">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -66,15 +60,7 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
-        <insert tableName="role" schemaName="flashcards">
-            <column name="crte_ddtm_utc" value="${now}"/>
-            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="lst_mdfd_ddtm_utc" value="${now}"/>
-            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="nm" value="ADMIN"/>
-            <column name="dscrptn" value="Administrator"/>
-        </insert>
-        <createTable tableName="flshcrd" schemaName="flashcards">
+        <createTable tableName="flshcrd" remarks="Flashcards">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -100,7 +86,7 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
-        <createTable tableName="flshcrd_lst" schemaName="flashcards">
+        <createTable tableName="flshcrd_lst" remarks="Flashcard Lists">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -123,7 +109,7 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
-        <createTable tableName="flshcrd_lst_flshcrd" schemaName="flashcards">
+        <createTable tableName="flshcrd_lst_flshcrd" remarks="Flashcard List to Flashcard mapping.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -146,7 +132,7 @@
                 <constraints nullable="false" foreignKeyName="fk_flshcrd_id" references="flshcrd(id)"/>
             </column>
         </createTable>
-        <createTable tableName="usr_flshcrd_lst" schemaName="flashcards">
+        <createTable tableName="usr_flshcrd_lst" remarks="User to Flashcard List mapping.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -169,5 +155,28 @@
                 <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
             </column>
         </createTable>
+    </changeSet>
+    <changeSet id="2" author="rluu">
+        <insert tableName="usr">
+            <column name="crte_dttm_utc" value="${now}"/>
+            <column name="lst_mdfd_dttm_utc" value="${now}"/>
+            <column name="fst_nm" value="Admin"/>
+            <column name="lst_nm" value="Admin"/>
+            <column name="usr_nm" value="ADMIN"/>
+            <column name="pswd" value=""/>
+            <column name="eml_addr" value=""/>
+        </insert>
+        <insert tableName="role">
+            <column name="crte_dttm_utc" value="${now}"/>
+            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="lst_mdfd_dttm_utc" value="${now}"/>
+            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
+            <column name="nm" value="ADMIN"/>
+            <column name="dscrptn" value="Administrator"/>
+        </insert>
+        <rollback>
+            delete from role where nm='ADMIN';
+            delete from usr where usr_nm='ADMIN';
+        </rollback>
     </changeSet>
 </databaseChangeLog>
