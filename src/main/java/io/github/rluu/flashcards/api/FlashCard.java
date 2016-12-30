@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -87,5 +89,10 @@ public class FlashCard implements Serializable {
 
     public void setUserNotes(String userNotes) {
         this.userNotes = userNotes;
+    }
+
+    @Override
+    public String toString() {
+       return ToStringBuilder.reflectionToString(this);
     }
 }

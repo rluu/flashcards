@@ -10,6 +10,11 @@ public class SimplePrincipal extends PrincipalImpl {
 	super(name);
     }
 
+    public SimplePrincipal(String name, User user) {
+	super(name);
+	this.user = user;
+    }
+
     public User getUser() {
         return user;
     }

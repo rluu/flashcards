@@ -1,6 +1,10 @@
 package io.github.rluu.flashcards;
 
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -10,6 +14,8 @@ import io.github.rluu.flashcards.api.FlashCard;
 import io.github.rluu.flashcards.api.FlashCardList;
 import io.github.rluu.flashcards.api.Role;
 import io.github.rluu.flashcards.api.User;
+import io.github.rluu.flashcards.core.auth.SimpleAuthenticator;
+import io.github.rluu.flashcards.core.auth.SimplePrincipal;
 import io.github.rluu.flashcards.db.UserDAO;
 
 public class FlashCardsApplication extends Application<FlashCardsConfiguration> {
@@ -48,8 +54,25 @@ public class FlashCardsApplication extends Application<FlashCardsConfiguration> 
     @Override
     public void run(final FlashCardsConfiguration configuration,
                     final Environment environment) {
-        final UserDAO dao = new UserDAO(hibernate.getSessionFactory());
-//        environment.jersey().register(new UserResource(dao));
+
+	final UserDAO userDao = new UserDAO(hibernate.getSessionFactory());
+
+	final SimpleAuthenticator simpleAuthenticator = new SimpleAuthenticator(userDao);
+
+//	final CachingAuthenticator<BasicCredentials, SimplePrincipal> cachingAuthenticator = 
+//		new CachingAuthenticator<>(metricRegistry, 
+//                                           simpleAuthenticator,
+//                                           configuration.getAuthenticationCachePolicy());
+
+	environment.jersey().register(new AuthDynamicFeature(
+		new BasicCredentialAuthFilter.Builder<SimplePrincipal>()
+		.setAuthenticator(simpleAuthenticator)
+		.buildAuthFilter()));
+	environment.jersey().register(RolesAllowedDynamicFeature.class);
+	//If you want to use @Auth to inject a custom Principal type into your resource
+	//environment.jersey().register(new AuthValueFactoryProvider.Binder<>(SimplePrincipal.class));
+
+	//        environment.jersey().register(new UserResource(dao));
     }
 
 }
