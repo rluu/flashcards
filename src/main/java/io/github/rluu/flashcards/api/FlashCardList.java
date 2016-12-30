@@ -49,6 +49,31 @@ public class FlashCardList implements Serializable {
     @JsonProperty
     private List<FlashCard> flashCards;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedDateTimeUtc() {
+        return createdDateTimeUtc;
+    }
+
+    public void setCreatedDateTimeUtc(Date createdDateTimeUtc) {
+        this.createdDateTimeUtc = createdDateTimeUtc;
+    }
+
+    public Date getLastModifiedDateTimeUtc() {
+        return lastModifiedDateTimeUtc;
+    }
+
+    public void setLastModifiedDateTimeUtc(Date lastModifiedDateTimeUtc) {
+        this.lastModifiedDateTimeUtc = lastModifiedDateTimeUtc;
+    }
+
     public String getName() {
         return name;
     }
