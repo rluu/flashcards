@@ -12,7 +12,7 @@
 
     <changeSet id="1" author="rluu">
         <createTable tableName="usr" remarks="Users">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="usr_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="crte_dttm_utc" type="timestamp with time zone">
@@ -34,7 +34,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="eml_addr" type="varchar(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
         <createIndex tableName="usr" indexName="usr_idx_usr_nm">
@@ -44,20 +44,8 @@
             <column name="pswd"/>
         </createIndex>
         <createTable tableName="role" remarks="Roles">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="role_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="crte_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
-            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
             </column>
             <column name="nm" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
@@ -70,26 +58,14 @@
             <column name="nm"/>
         </createIndex>
         <createTable tableName="usr_role" remarks="User to Roles mapping">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="usr_role_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="crte_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
-            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
-            </column>
             <column name="usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(usr_id)"/>
             </column>
             <column name="role_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_role_id" references="role(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_role_id" references="role(role_id)"/>
             </column>
         </createTable>
         <createIndex tableName="usr_role" indexName="usr_role_idx_usr_id">
@@ -99,20 +75,14 @@
             <column name="role_id"/>
         </createIndex>
         <createTable tableName="flshcrd" remarks="Flashcards">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="flshcrd_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="crte_dttm_utc" type="timestamp with time zone">
                 <constraints nullable="false"/>
             </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
             <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
                 <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
             </column>
             <column name="sd1" type="varchar(4096)">
                 <constraints nullable="false"/>
@@ -125,20 +95,14 @@
             </column>
         </createTable>
         <createTable tableName="flshcrd_lst" remarks="Flashcard Lists">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="flshcrd_lst_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="crte_dttm_utc" type="timestamp with time zone">
                 <constraints nullable="false"/>
             </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
             <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
                 <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
             </column>
             <column name="nm" type="varchar(255)">
                 <constraints nullable="false"/>
@@ -148,26 +112,14 @@
             </column>
         </createTable>
         <createTable tableName="flshcrd_lst_flshcrd" remarks="Flashcard List to Flashcard mapping.">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="flshcrd_lst_flshcrd_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="crte_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
-            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
-            </column>
             <column name="flshcrd_lst_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(flshcrd_lst_id)"/>
             </column>
             <column name="flshcrd_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_flshcrd_id" references="flshcrd(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_id" references="flshcrd(flshcrd_id)"/>
             </column>
         </createTable>
         <createIndex tableName="flshcrd_lst_flshcrd" indexName="flshcrd_lst_flshcrd_idx_flshcrd_lst_id">
@@ -177,26 +129,14 @@
             <column name="flshcrd_id"/>
         </createIndex>
         <createTable tableName="usr_flshcrd_lst" remarks="User to Flashcard List mapping.">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="usr_flshcrd_lst_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="crte_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="crte_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_crte_by_usr_id" references="usr(id)"/>
-            </column>
-            <column name="lst_mdfd_dttm_utc" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="lst_mdfd_by_usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_lst_mdfd_by_usr_id" references="usr(id)"/>
-            </column>
             <column name="usr_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_usr_id" references="usr(usr_id)"/>
             </column>
             <column name="flshcrd_lst_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_flshcrd_lst_id" references="flshcrd_lst(flshcrd_lst_id)"/>
             </column>
         </createTable>
         <createIndex tableName="usr_flshcrd_lst" indexName="usr_flshcrd_lst_idx_usr_id">
@@ -217,32 +157,20 @@
             <column name="eml_addr" value=""/>
         </insert>
         <insert tableName="role">
-            <column name="crte_dttm_utc" value="${now}"/>
-            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="lst_mdfd_dttm_utc" value="${now}"/>
-            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
             <column name="nm" value="ADMIN"/>
             <column name="dscrptn" value="Administrator"/>
         </insert>
         <insert tableName="role">
-            <column name="crte_dttm_utc" value="${now}"/>
-            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="lst_mdfd_dttm_utc" value="${now}"/>
-            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
             <column name="nm" value="USER"/>
             <column name="dscrptn" value="Regular User"/>
         </insert>
         <insert tableName="usr_role">
-            <column name="crte_dttm_utc" value="${now}"/>
-            <column name="crte_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="lst_mdfd_dttm_utc" value="${now}"/>
-            <column name="lst_mdfd_by_usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="usr_id" valueComputed="(select id from usr where usr_nm='ADMIN')"/>
-            <column name="role_id" valueComputed="(select id from role where nm='ADMIN')"/>
+            <column name="usr_id" valueComputed="(select usr_id from usr where usr_nm='ADMIN')"/>
+            <column name="role_id" valueComputed="(select role_id from role where nm='ADMIN')"/>
         </insert>
         <rollback>
-            delete from usr_role where role_id in (select id from role where nm='ADMIN');
-            delete from usr_role where role_id in (select id from role where nm='USER');
+            delete from usr_role where role_id in (select role_id from role where nm='ADMIN');
+            delete from usr_role where role_id in (select role_id from role where nm='USER');
             delete from role where nm='ADMIN';
             delete from role where nm='USER';
             delete from usr where usr_nm='ADMIN';

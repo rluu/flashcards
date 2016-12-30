@@ -17,7 +17,7 @@ Software stack:
   - [Jersey](http://jersey.java.net/) for REST.
   - [Jackson](http://wiki.fasterxml.com/JacksonHome) for JSON.
   - [Metrics](http://metrics.dropwizard.io/) for metrics.
-  - [JDBI](http://www.jdbi.org/) for relational database with Java.
+  - [Hibernate](http://hibernate.org/orm/) for relational database with Java.
   - [Liquibase](http://www.liquibase.org/) for database schema versioning.
   - [Freemarker](http://freemarker.sourceforge.net/) for front-end templating.
 
