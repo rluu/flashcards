@@ -89,7 +89,7 @@ vagrant ssh
 You'll know if it did this by the format of the command prompt.  Verify that the command prompt looks something like:
 
 ```
-(venv)ubuntu@ubuntu-trusty-64:~$
+(venv)ubuntu@ubuntu-xenial:~$
 ```
 
 If you don't see the `(venv)` in the front of the prompt, then you will need to source the script manually via: `source ./venv/bin/activate`

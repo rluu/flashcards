@@ -1,2 +1,22 @@
-# Ignore the virtualenv environment.
-venv
+# Ignore the virtualenv directory name.
+venv/
+
+# Ignore Python byte-compiled artifacts.
+__pycache__/
+*.py[cod]
+
+# Ignore all log files.
+*.log
+
+# Ignore the Vagrant hidden directory.
+.vagrant/
+
+# Ignore Ubuntu console log file.
+ubuntu-*-console.log
+
+# Ignore MacOS filesystem artifacts.
+.DS_Store
+
+# Don't ignore this file.
+!.gitignore
+

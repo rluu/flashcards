@@ -12,6 +12,9 @@
 # which is mapped to the project's top-level directory.
 export PROJECT_HOME=/vagrant
 
+# Python virtualenv directory.
+export PYTHON_VIRTUALENV_DIR=${PROJECT_HOME}/venv
+
 # PostgreSQL version.
 export PGSQL_VERSION=9.5
 
@@ -29,12 +32,21 @@ echo "Installing operating system packages ..."
 sudo apt-get update -y
 
 #sudo apt-get install -y emacs23
-#sudo apt-get install -y git
-#sudo apt-get install -y unzip
-#sudo apt-get install -y python3-pip
+#sudo apt-get install -y git  # Git already comes with Ubuntu xenial
 
-echo "Installing zip ..."
-sudo apt-get install -y zip
+echo "Installing zip and unzip ..."
+sudo apt-get install -y zip unzip
+
+echo "Installing python3-pip ..."
+sudo apt-get install -y python3-pip
+
+# Install virtualenv and use that instead of using pyvenv or python -m venv,
+# because there is a bug with it on ubuntu/trusty64 and ubuntu/xenial,
+# preventing it from working.  
+# In the future, we should be able to switch to using python -m venv instead
+# of virtualenv.
+echo "Installing virtualenv ..."
+sudo pip3 install virtualenv
 
 ##############################################################################
 # Set up Java.
@@ -49,7 +61,6 @@ sudo apt-get install -y zip
 # Set up PostgreSQL.
 
 echo "Installing PostgreSQL database ..."
-
 apt-get install -y postgresql-${PGSQL_VERSION} postgresql-contrib-${PGSQL_VERSION} libpq-dev
 cp ${PROJECT_HOME}/provision/pg_hba.conf /etc/postgresql/${PGSQL_VERSION}/main/
 /etc/init.d/postgresql reload
@@ -63,12 +74,33 @@ echo "Installing pgAdmin ..."
 apt-get install -y pgadmin3
 
 ##############################################################################
+# Creating a python3 virtualenv environment
+
+echo "Creating the project's Python 3 virtualenv environment ..."
+cd ${PROJECT_HOME}
+
+if [ -d "${PYTHON_VIRTUALENV_DIR}" ]; then
+    rm -rf ${PYTHON_VIRTUALENV_DIR}
+fi
+virtualenv ${PYTHON_VIRTUALENV_DIR}
+
+# Activate the virtual environment.
+source ${PYTHON_VIRTUALENV_DIR}/bin/activate
+
+########################################
+# Install other Python dependencies into the Python virtual environment.
+
+echo "Installing the project's Python 3 packages via pip3 ..."
+pip3 install -r ${PROJECT_HOME}/provision/pip_requirements.txt
+
+##############################################################################
 # Setup the Bash environment.
 
 echo "Doing bash environment setup ..."
 
-echo "alias ls='ls --color=auto'" >> /home/ubuntu/.bash_profile
-echo "alias sl='ls'" >> /home/ubuntu/.bash_profile
+echo "alias ls='ls --color=auto'" | sudo -u ubuntu tee -a /home/ubuntu/.bash_profile
+echo "alias sl='ls'" | sudo -u ubuntu tee -a /home/ubuntu/.bash_profile
+echo "source ${PYTHON_VIRTUALENV_DIR}/bin/activate" | sudo -u ubuntu tee -a /home/ubuntu/.bash_profile
 
 ##############################################################################
 
