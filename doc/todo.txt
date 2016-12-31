@@ -1,0 +1,49 @@
+TODO list for the flashcards project
+---
+
+
+### Backend features to add:
+
+- Add tests to check and see if the DAOs I just created will actually work
+as intended.
+
+- REST service resource for creating user (username and password).
+  - Email confirmation link upon user creation.
+  - Email is verified flag should be added for this feature.
+- REST service resource for getting user (only allowed to get user info for yourself).
+
+- REST service resource for creating/getting/saving flashcard list.
+
+- REST service resource for creating/getting/saving flashcard.
+
+
+- Create a FlashCardTest POJO that will include a list of flash cards to
+  run through a flashcard test.
+
+
+### UI features to add:
+
+- How to set up and use freemarker?
+
+- Create landing page.
+- Create about page.
+
+- Create Login page.
+- Create User Signup page/form.
+- Create Error login page.
+
+- Create page for listing of flashcard lists.
+- Buttons for adding, deleting, editing.  
+- Button/click for showing the flashcards in that flashcard list.
+
+- Create page for listing of flashcards in a flashcard list.
+- Buttons for adding, deleting, editing.  
+
+- Create page for running a flashcard test through a flashcard list.
+
+- Create page for stats of a flashcard test through a flashcard list.
+
+- Create page for customizing the flashcards in a flashcard list that
+are used for a flashcard test.
+...
+
