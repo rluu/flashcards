@@ -1,2 +1,42 @@
+# Django
 Django==1.10.4
+
+# Required for PostgreSQL with Django.
 psycopg2==2.6.2
+
+# Django REST Framework
+djangorestframework==3.5.3
+
+# Django REST Framework: Markdown support for the browsable API.
+Markdown==2.6.7
+
+# Django REST Framework: Filtering support
+django-filter==1.0.1
+
+# Django REST Framework: Object level permissions support.
+django-guardian==1.4.6
+
+# For some nice Django management utilties/command-line tools.
+# See https://github.com/django-extensions/django-extensions/
+#
+django-extensions==1.7.5
+
+# Support for Django's ImageField.
+#Pillow==3.4.2
+
+# Django Cross-Origin Resource Sharing (CORS) HTTP headers.
+django-cors-headers==1.3.1
+
+# Support for Linux kernel notification of file changes.
+# 
+# By default, Django's manage.py runserver checks for filechanges
+# once every second for reloading the server, which is inefficient and
+# eats up CPU and battery.  Django recommends installing this package
+# which hooks into the Linux kernel, so it can be notified of file changes
+# instead of busy-loop checking.
+pyinotify==0.9.6
+
+# Support for timezones in a datetime.datetime().
+# We use these datetimes in load scripts in:
+#   event-listing/backend/django/scripts/
+pytz==2016.10

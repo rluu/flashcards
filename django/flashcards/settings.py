@@ -37,6 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Django REST Framework.
+    'rest_framework',
+
+    # Django management extensions.
+    # https://github.com/django-extensions/django-extensions/
+    'django_extensions',
+
+    'flashcards_app',
 ]
 
 MIDDLEWARE = [
@@ -45,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -75,9 +85,23 @@ WSGI_APPLICATION = 'flashcards.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'flashcards_db',
+        'USER': 'flashcards_user',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
+
+    # To initialize the PostgreSQL database for this webapp, see the
+    # commands that were run in file vagrant_bootstrap.sh.
+    
+    # Below is the default setting that comes auto-generated from Django.
+    #
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.sqlite3',
+    #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #    }
 }
 
 
@@ -118,3 +142,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Settings related to the Django REST Framework.
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # See: http://www.django-rest-framework.org/api-guide/permissions/
+    'DEFAULT_PERMISSION_CLASSES': [
+        #'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.permissions.IsAdminUser',
+        #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '20/minute',
+        'user': '40/minute',
+    }
+}
