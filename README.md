@@ -106,6 +106,13 @@ cd /vagrant/django
 python3 manage.py migrate
 ```
 
+During normal development, you would have to do the following whenever changes occur to your model:
+
+```
+python3 manage.py makemigrations flashcards_app
+python3 manage.py migrate
+```
+
 4) If this is the very first time running the Django server with the database, then you will want to create a superuser account for the Django backend server.
 
 ```

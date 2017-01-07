@@ -6,16 +6,16 @@ from .models import Flashcard
 
 
 class UserSerializer(serializers.ModelSerializer):
-    flashcard_lists = serializers.PrimaryKeyRelatedField(many=True,
+    flashcardlists = serializers.PrimaryKeyRelatedField(many=True,
                                                 queryset=FlashcardList.objects.all())
-    
+
     class Meta:
         model = User
         fields = ('id',
                   'username',
                   'email',
                   'groups',
-                  'flashcard_lists',
+                  'flashcardlists',
                   )
         read_only_fields = ('id',
                             'username',
@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     users = serializers.PrimaryKeyRelatedField(many=True,
                                                queryset=User.objects.all())
-    
+
     class Meta:
         model = Group
         fields = ('id',
@@ -36,18 +36,18 @@ class GroupSerializer(serializers.ModelSerializer):
                             'name',
                             'users',
                             )
-    
+
 class FlashcardListSerializer(serializers.ModelSerializer):
     flashcards = serializers.PrimaryKeyRelatedField(many=True,
                                                 queryset=Flashcard.objects.all())
     created_by_user = serializers.ReadOnlyField(source='created_by_user.id')
-    
+
     class Meta:
         model = FlashcardList
         fields = ('id',
                   'created_timestamp',
                   'modified_timestamp',
-                  'creapted_by_user',
+                  'created_by_user',
                   'name',
                   'description',
                   'flashcards',
@@ -57,13 +57,13 @@ class FlashcardListSerializer(serializers.ModelSerializer):
                             'modified_timestamp',
                             'created_by_user',
                             )
-        
+
     def validate(self, data):
         # Make sure the name of the flashcard list is not empty.
         if len(data['name']):
             errMsg = "name must not be empty"
             raise serializers.ValidationError(errMsg)
-        
+
         return data
 
 class FlashcardSerializer(serializers.ModelSerializer):
