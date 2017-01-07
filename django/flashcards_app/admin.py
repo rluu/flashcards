@@ -11,17 +11,17 @@ class FlashcardListAdmin(admin.ModelAdmin):
          'created_timestamp',
          'modified_timestamp',
         )
-    
+
     fields = \
         ('name',
          'description',
         )
 
-    def save_model(self, request, obj, form, change): 
+    def save_model(self, request, obj, form, change):
         obj.created_by_user = request.user
         obj.save()
 
-    def save_formset(self, request, form, formset, change): 
+    def save_formset(self, request, form, formset, change):
         if formset.model == Flashcard:
             instances = formset.save(commit=False)
             for instance in instances:
@@ -39,14 +39,14 @@ class FlashcardAdmin(admin.ModelAdmin):
          'created_timestamp',
          'modified_timestamp',
         )
-    
+
     fields = \
         ('text_side_1',
          'text_side_2',
          'user_notes',
         )
 
-    def save_model(self, request, obj, form, change): 
+    def save_model(self, request, obj, form, change):
         obj.created_by_user = request.user
         obj.save()
 
