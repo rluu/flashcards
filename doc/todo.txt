@@ -1,0 +1,17 @@
+
+Some things on the TODO list:
+
+Need to need to fix the Django admin screen so that when creating a
+flashcard, we can pick a flashcard list to associate it with.  
+
+Something to think of: In the admin screen, should creating a
+FlashcardList automatically get associated with the currently logged-in
+user?
+
+Verify these two in the REST api web views:
+1) Need to fix the relationship between users and flashcard lists
+2) Need to fix the relationship between flashcard lists and flashcards.
+
+
+- Need to build up the front end UI with django templating.
+
